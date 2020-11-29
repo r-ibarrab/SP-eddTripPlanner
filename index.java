@@ -63,9 +63,9 @@ public class index{
                                 if(nivel4){
                                     System.out.println("Vuelve a seleccionar una opción:");
                                 }
-                                System.out.println("1...."+selection.root.nombre+" (Pasajeros:"+selection.root.pasajeros+", Precio: $"+selection.root.precio+" por dia, Rendimiento: "+selection.root.rendimiento+" km/l)");
-                                System.out.println("2...."+selection.root.right.nombre+" (Pasajeros:"+selection.root.right.pasajeros+", Precio: $"+selection.root.right.precio+" por dia, Rendimiento: "+selection.root.right.rendimiento+" km/l)");
-                                System.out.println("3...."+selection.root.left.nombre+" (Pasajeros:"+selection.root.left.pasajeros+", Precio: $"+selection.root.left.precio+" por dia, Rendimiento: "+selection.root.left.rendimiento+" km/l)");
+                                System.out.println("1...."+selection.root.nombre+" (Pasajeros:"+selection.root.pasajeros+", Precio: $"+selection.root.precio+" por hora, Rendimiento: "+selection.root.rendimiento+" km/l)");
+                                System.out.println("2...."+selection.root.right.nombre+" (Pasajeros:"+selection.root.right.pasajeros+", Precio: $"+selection.root.right.precio+" por hora, Rendimiento: "+selection.root.right.rendimiento+" km/l)");
+                                System.out.println("3...."+selection.root.left.nombre+" (Pasajeros:"+selection.root.left.pasajeros+", Precio: $"+selection.root.left.precio+" por hora, Rendimiento: "+selection.root.left.rendimiento+" km/l)");
                                 System.out.println("4....Cancelar");
                                 
                                 
@@ -106,14 +106,180 @@ public class index{
                                                 switch (nono) {
                                                     case 0:
                                                         nivel4 = true;
+                                                        confvehi = false;
                                                         break;
                                                     case 1:
                                                         nivel4 = false;
                                                         nivel2=false;
+                                                        boolean nivel6=false;
+
+                                                        do{
+                                                           
+                                                            boolean nivel5 = false;
+                                                            boolean correctCity=false;
+                                                            
+                                                            String citySelected;
+                                                            do{
+                                                                System.out.println("Muy bien, es hora de seleccionar tu punto de partida o escribe exit para salir: \n----------------------");
+                                                                proyecto.printGraph();
+                                                                System.out.print("----------------------\n");
+                                                                if(nivel5){
+                                                                    System.out.println("Lo sentimos, no tenemos servicio en esa ciudad :(, selecciona otra o escribe exit para salir");
+                                                                }
+                                                                citySelected=palabras.nextLine();
+                                                                if(citySelected.toLowerCase().equals("exit")){
+                                                                    System.out.println("dentro");
+                                                                    nivel5=false;
+                                                                    correctCity=false;
+                                                                    nivel6=false;
+                                                                    nivel4=true;
+                                                                
+                                                                    
+
+                                                                }else if(!proyecto.isCityRegistered(citySelected)){
+                                                                    nivel5=true;
+                                                                }else{
+                                                                    nivel5=false;
+                                                                    correctCity=true;
+                                                                }
+    
+    
+    
+                                                            }while(nivel5);
+                                                            
+    
+                                                            if(correctCity){
+                                                                System.out.println("\n\nPerfecto!!"+citySelected.substring(0, 1).toUpperCase() + citySelected.substring(1)+" es una excelente elecciónn, es momento de planear hasta donde llegará tu viaje.\nPuedes elegir entre diferentes modalidades que determinaran tu lugar de destino, entre ellas tu presupuesto, tiempo o ciudad de destino.");
+                                                                boolean nivel7=false;
+                                                                int modality=0;
+                                                                do{
+                                                                    System.out.println("1......Presupuesto");
+                                                                    System.out.println("2......Tiempo");
+                                                                    System.out.println("3......Destino");
+                                                                    System.out.println("4......Cancelar");
+                                                                    modality = numeros.nextInt();
+
+                                                                    switch (modality) {
+                                                                        case 1:
+                                                                            nivel7=true;
+                                                                            boolean nivel8=false;
+                                                                            int presupuestoViaje=0;
+                                                                            do{
+                                                                                if(nivel8){
+                                                                                    System.out.println("El presupuesto no puede ser negativo");
+
+                                                                                }
+
+                                                                                System.out.println("Ingresa tu presupuesto para este viaje");
+                                                                                presupuestoViaje=numeros.nextInt();
+
+                                                                                if(presupuestoViaje<=0){
+                                                                                    nivel8 = true;
+                                                                                }else{
+                                                                                    nivel8=false;
+                                                                                    System.out.println(presupuestoViaje);
+                                                                                    
+                                                                                }
+
+
+                                                                            }while(nivel8);
+
+                                                                    
+
+                                                                            
+                                                                            break;
+                                                                        case 2:
+                                                                        nivel7=true;
+                                                                        boolean nivel9=false;
+                                                                        int tiempoViaje=0;
+                                                                        do{
+                                                                            if(nivel9){
+                                                                                System.out.println("El tiempo no puede ser negativo");
+
+                                                                            }
+
+                                                                            System.out.println("Ingresa el tiempo en horas que tienes disponible para este viaje");
+                                                                            tiempoViaje=numeros.nextInt();
+
+                                                                            if(tiempoViaje<=0){
+                                                                                nivel9 = true;
+                                                                            }else{
+                                                                                nivel9=false;
+                                                                                System.out.println(tiempoViaje);
+                                                                                
+                                                                            }
+
+
+                                                                        }while(nivel9);
+
+                                                                    
+
+                                                                            
+                                                                            break;
+                                                                        case 3:
+                                                                            nivel7=true;
+                                                                            boolean nivel10=false;
+                                                                            String ciudadViaje="";
+                                                                            System.out.println("Ingresa la ciudad de destino o escriba exit para cancelar:");
+
+                                                                            do{
+                                                                                if(nivel10){
+                                                                                    System.out.println("Esta ciudad no esta disponible :(, selecione otra o escriba exit para cancelar");
+    
+                                                                                }
+    
+                                                                                ciudadViaje=palabras.nextLine();
+                                                                                
+    
+                                                                                if(ciudadViaje.toLowerCase().equals("exit")){
+                                                                                    nivel10 = false;
+                                                                                }else if(!proyecto.isCityRegistered(ciudadViaje)){
+                                                                                    nivel10=true;
+                                                                                     
+                                                                                }else{
+                                                                                    nivel10=false;
+
+                                                                                    System.out.println(citySelected+"--"+ciudadViaje);
+
+                                                                                }
+    
+    
+                                                                            }while(nivel10);
+
+                                                                    
+
+                                                                            
+                                                                            break;
+
+                                                                        case 4:
+                                                                            nivel7=false;
+                                                                            nivel6=true;
+                                                                            break;
+                                                                    
+                                                                        default:
+                                                                            break;
+                                                                    }
+                              
+                                                                    
+                                                                    
+
+                                                                    
+                                                                }while(nivel7);
+    
+                                                            }
+
+                                                        }while(nivel6);
+
+
+
+
+
+
                                                         break;
                                                 
                                                     default:
                                                         System.out.println("Opcion no disponible");
+                                                        confvehi = true;
                                                         break;
                                                 }
         
@@ -144,6 +310,59 @@ public class index{
                     }while(nivel2);
                 break;
                 case 2:
+                    boolean c2nivel1 = false;
+
+                    do{
+                       
+                        System.out.println("¿Que deseas hacer?");
+                        System.out.println("1......Editar ciudad");
+                        System.out.println("2......Eliminar ciudad");
+                        System.out.println("3......Agregar ciudad");
+                        System.out.println("4......Ver mapa");
+                        System.out.println("5......Salir");
+
+                        int opadmin = numeros.nextInt();
+
+                       switch (opadmin) {
+                           case 1:
+                                String ciudadedit = proyecto.preEdit();
+                                proyecto.editCity(ciudadedit);
+                                c2nivel1=true;
+                               
+                               break;
+                            case 2:
+
+                                c2nivel1=true;
+                               
+                               break;
+                            case 3:
+                            proyecto.addCity();
+                           c2nivel1=true;
+
+                               
+                               break;
+                            case 4:
+                            proyecto.printMap();
+                           c2nivel1=true;
+
+                               
+                               break;
+                            case 5:
+                                c2nivel1=false;
+                               break;
+                       
+                           default:
+                           System.out.println("Opcion no disponible");
+                           c2nivel1=true;
+
+                               break;
+                       }
+                        
+
+
+                    }while(c2nivel1);
+
+
                 break;
                 case 3:
                 nivel1=false;

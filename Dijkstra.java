@@ -17,23 +17,23 @@ public class Dijkstra{
         graph.put("hermosillo",new ArrayList<Edge>(Arrays.asList(new Edge("caborca",282))));
         graph.put("tijuana",new ArrayList<Edge>(Arrays.asList(new Edge("tecate",54), new Edge("rosarito",21))));
 
-        Node kiaDeluxe= new Node("Kia Forte ",16,45, 5);
-        Node kiaSport= new Node("Kia Forte Sport",9,38, 5);
-        Node kiaLite= new Node("Kia Forte Deluxe",12,22, 5);
+        Node kiaDeluxe= new Node("Kia Forte ",16,150, 5);
+        Node kiaSport= new Node("Kia Forte Sport",9,210, 5);
+        Node kiaLite= new Node("Kia Forte Deluxe",12,380, 5);
         kiaDeluxe.left = kiaSport;
         kiaDeluxe.right = kiaLite;
         BinaryTree kia = new BinaryTree(kiaDeluxe);
 
-        Node toyota1= new Node("Toyora Camry",14,21, 5);
-        Node toyota2= new Node("Toyora Camry Sport",16,28, 5);
-        Node toyota3= new Node("Toyora Camry Deluxe",9,40, 5);
+        Node toyota1= new Node("Toyora Camry",14,225, 5);
+        Node toyota2= new Node("Toyora Camry Sport",16,300, 5);
+        Node toyota3= new Node("Toyora Camry Deluxe",9,430, 5);
         toyota1.left = toyota2;
         toyota1.right = toyota3;
         BinaryTree toyota = new BinaryTree(toyota1);
 
-        Node audi1= new Node("Audi A1 ",11,37, 4);
-        Node audi2= new Node("Audi A1 Sport",8,45, 4);
-        Node audi3= new Node("Audi A1 Deluxe",14,55, 4);
+        Node audi1= new Node("Audi A1 ",11,450, 4);
+        Node audi2= new Node("Audi A1 Sport",8,540, 4);
+        Node audi3= new Node("Audi A1 Deluxe",14,710, 4);
         audi1.left = audi2;
         audi1.right = audi3;
         BinaryTree audi = new BinaryTree(audi1);
@@ -285,17 +285,30 @@ public class Dijkstra{
 
                     Edge eliminacion = cityRels.get(res);
                     ArrayList<Edge> listelim= graph.get(eliminacion.pointer);
-
+                    Edge eliminatededge = new Edge();
                     for(Edge edgin: listelim){
                         if(edgin.pointer.equals(city)){
-                            listelim.remove(edgin);
+                            eliminatededge = edgin;
                         }
                     }
-                    graph.put(eliminacion.pointer,listelim);
+                    listelim.remove(eliminatededge);
+
+                    if(listelim.isEmpty()){
+                        graph.remove(eliminacion.pointer);
+                    }else{
+                        graph.put(eliminacion.pointer,listelim);
+
+                    }
+
 
                     cityRels.remove(res);
+                    if(cityRels.isEmpty()){
+                        graph.remove(city);
+                    }else{
+                        graph.put(city,cityRels);
 
-                    graph.put(city,cityRels);
+                    }
+
 
 
                         break;
@@ -355,9 +368,8 @@ public class Dijkstra{
 
 
     }
-
-    public static void printGraph(){
-        for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
+    public static void printMap(){
+           for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
 
             ArrayList<Edge> neighbours = cities.getValue();
             System.out.print(cities.getKey()+": ");
@@ -369,6 +381,27 @@ public class Dijkstra{
 
 
         }
+
+
+    }
+
+    public static void printGraph(){
+        // for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
+
+        //     ArrayList<Edge> neighbours = cities.getValue();
+        //     System.out.print(cities.getKey()+": ");
+        //     for(Edge city: neighbours){
+        //         System.out.print("("+ city.getPointer() +","+city.getDistance()+") ");
+                
+        //     }
+        //     System.out.println("");
+
+
+        // }
+        for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
+            System.out.println(cities.getKey().substring(0, 1).toUpperCase() + cities.getKey().substring(1));
+        }
+    
     }
 
     public static String preEdit(){

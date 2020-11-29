@@ -1,6 +1,7 @@
 public class Edge {
     String pointer;
     int distance;
+    Edge(){}
 
     Edge(String pointer, int distance){
         this.pointer = pointer;
