@@ -152,12 +152,18 @@ public class index{
                                                                 System.out.println("\n\nPerfecto!!"+citySelected.substring(0, 1).toUpperCase() + citySelected.substring(1)+" es una excelente elecciónn, es momento de planear hasta donde llegará tu viaje.\nPuedes elegir entre diferentes modalidades que determinaran tu lugar de destino, entre ellas tu presupuesto, tiempo o ciudad de destino.");
                                                                 boolean nivel7=false;
                                                                 int modality=0;
+                                                                int rendimientoVehiculo = userVehicleSelection.rendimiento;
+                                                                int precioVehiculo = userVehicleSelection.precio;
                                                                 do{
+                                                                    if(nivel7){
+                                                                        System.out.println("Opcion no disponible");
+                                                                    }
                                                                     System.out.println("1......Presupuesto");
                                                                     System.out.println("2......Tiempo");
                                                                     System.out.println("3......Destino");
                                                                     System.out.println("4......Cancelar");
                                                                     modality = numeros.nextInt();
+
 
                                                                     switch (modality) {
                                                                         case 1:
@@ -177,7 +183,10 @@ public class index{
                                                                                     nivel8 = true;
                                                                                 }else{
                                                                                     nivel8=false;
-                                                                                    System.out.println(presupuestoViaje);
+                                                                                    System.out.println(rendimientoVehiculo+" - "+precioVehiculo);
+                                                                                    //113
+                                                                                    double kilometrosTotales = (presupuestoViaje)/((17.35/rendimientoVehiculo)+(precioVehiculo/113));
+                                                                                    System.out.println(kilometrosTotales);
                                                                                     
                                                                                 }
 
@@ -224,7 +233,7 @@ public class index{
 
                                                                             do{
                                                                                 if(nivel10){
-                                                                                    System.out.println("Esta ciudad no esta disponible :(, selecione otra o escriba exit para cancelar");
+                                                                                    System.out.println("No se puede seleccionar esa ciudad, selecione otra o escriba exit para cancelar");
     
                                                                                 }
     
@@ -236,10 +245,14 @@ public class index{
                                                                                 }else if(!proyecto.isCityRegistered(ciudadViaje)){
                                                                                     nivel10=true;
                                                                                      
+                                                                                }else if(ciudadViaje.equals(citySelected)){
+                                                                                    nivel10=true;
+                                                           
                                                                                 }else{
                                                                                     nivel10=false;
 
                                                                                     System.out.println(citySelected+"--"+ciudadViaje);
+                                                                                    // System.out.println(userVehicleSelection.nombre);
 
                                                                                 }
     
@@ -257,6 +270,7 @@ public class index{
                                                                             break;
                                                                     
                                                                         default:
+                                                                            nivel7 = true;
                                                                             break;
                                                                     }
                               
@@ -316,10 +330,9 @@ public class index{
                        
                         System.out.println("¿Que deseas hacer?");
                         System.out.println("1......Editar ciudad");
-                        System.out.println("2......Eliminar ciudad");
-                        System.out.println("3......Agregar ciudad");
-                        System.out.println("4......Ver mapa");
-                        System.out.println("5......Salir");
+                        System.out.println("2......Agregar ciudad");
+                        System.out.println("3......Ver mapa");
+                        System.out.println("4......Salir");
 
                         int opadmin = numeros.nextInt();
 
@@ -331,23 +344,18 @@ public class index{
                                
                                break;
                             case 2:
-
-                                c2nivel1=true;
-                               
-                               break;
-                            case 3:
                             proyecto.addCity();
                            c2nivel1=true;
 
                                
                                break;
-                            case 4:
+                            case 3:
                             proyecto.printMap();
                            c2nivel1=true;
 
                                
                                break;
-                            case 5:
+                            case 4:
                                 c2nivel1=false;
                                break;
                        
