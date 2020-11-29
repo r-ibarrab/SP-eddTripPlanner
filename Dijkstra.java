@@ -3,6 +3,7 @@ import java.util.*;
 public class Dijkstra{
     static HashMap<String, ArrayList<Edge>> graph = new HashMap<String, ArrayList<Edge>>();
     static List<String> visited = new ArrayList<String>();
+    ArrayList<BinaryTree> vehiculos = new ArrayList<BinaryTree>();
 
     Dijkstra(){
         graph.put("mexicali",new ArrayList<Edge>(Arrays.asList(new Edge("san felipe",197),new Edge("puerto penasco",297), new Edge("tecate",130),new Edge("san luis",80))));
@@ -15,6 +16,8 @@ public class Dijkstra{
         graph.put("puerto penasco",new ArrayList<Edge>(Arrays.asList(new Edge("san luis",238),new Edge("mexicali",297), new Edge("caborca",178))));
         graph.put("hermosillo",new ArrayList<Edge>(Arrays.asList(new Edge("caborca",282))));
         graph.put("tijuana",new ArrayList<Edge>(Arrays.asList(new Edge("tecate",54), new Edge("rosarito",21))));
+
+        Node kia= new Node()
         
         
 
