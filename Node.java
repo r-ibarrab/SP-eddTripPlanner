@@ -1,13 +1,21 @@
 public class Node{
 
     String nombre;
-    String rendimiento;
+    int rendimiento;
     int precio;
     int pasajeros;
     Node left;
     Node right;
 
-    Node(int d){
-        data = d;
+    Node(String nom,int rend,int prec, int pasa){
+        this.nombre= nom;
+        this.rendimiento=rend;
+        this.precio=prec;
+        this.pasajeros=pasa;
+        
+    }
+    Node(){
+        
+        
     }
 }

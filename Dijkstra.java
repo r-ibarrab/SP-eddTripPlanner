@@ -3,7 +3,7 @@ import java.util.*;
 public class Dijkstra{
     static HashMap<String, ArrayList<Edge>> graph = new HashMap<String, ArrayList<Edge>>();
     static List<String> visited = new ArrayList<String>();
-    ArrayList<BinaryTree> vehiculos = new ArrayList<BinaryTree>();
+    static ArrayList<BinaryTree> vehiculos = new ArrayList<BinaryTree>();
 
     Dijkstra(){
         graph.put("mexicali",new ArrayList<Edge>(Arrays.asList(new Edge("san felipe",197),new Edge("puerto penasco",297), new Edge("tecate",130),new Edge("san luis",80))));
@@ -17,10 +17,39 @@ public class Dijkstra{
         graph.put("hermosillo",new ArrayList<Edge>(Arrays.asList(new Edge("caborca",282))));
         graph.put("tijuana",new ArrayList<Edge>(Arrays.asList(new Edge("tecate",54), new Edge("rosarito",21))));
 
-        Node kia= new Node()
+        Node kiaDeluxe= new Node("Kia Forte ",16,45, 5);
+        Node kiaSport= new Node("Kia Forte Sport",9,38, 5);
+        Node kiaLite= new Node("Kia Forte Deluxe",12,22, 5);
+        kiaDeluxe.left = kiaSport;
+        kiaDeluxe.right = kiaLite;
+        BinaryTree kia = new BinaryTree(kiaDeluxe);
+
+        Node toyota1= new Node("Toyora Camry",14,21, 5);
+        Node toyota2= new Node("Toyora Camry Sport",16,28, 5);
+        Node toyota3= new Node("Toyora Camry Deluxe",9,40, 5);
+        toyota1.left = toyota2;
+        toyota1.right = toyota3;
+        BinaryTree toyota = new BinaryTree(toyota1);
+
+        Node audi1= new Node("Audi A1 ",11,37, 4);
+        Node audi2= new Node("Audi A1 Sport",8,45, 4);
+        Node audi3= new Node("Audi A1 Deluxe",14,55, 4);
+        audi1.left = audi2;
+        audi1.right = audi3;
+        BinaryTree audi = new BinaryTree(audi1);
+        
+
+        vehiculos.add(kia);
+        vehiculos.add(audi);
+        vehiculos.add(toyota);
+       
         
         
 
+    }
+
+    public static ArrayList<BinaryTree> getVehicles(){
+        return vehiculos;
     }
 
     public static void addCity(){
