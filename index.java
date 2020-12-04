@@ -156,7 +156,7 @@ public class index{
                                                                 int precioVehiculo = userVehicleSelection.precio;
                                                                 do{
                                                                     if(nivel7){
-                                                                        System.out.println("Opcion no disponible");
+                                                                        System.out.println("Selecciona la modalidad");
                                                                     }
                                                                     System.out.println("1......Presupuesto");
                                                                     System.out.println("2......Tiempo");
@@ -215,7 +215,10 @@ public class index{
                                                                             }else{
                                                                                 nivel9=false;
                                                                                 System.out.println(tiempoViaje);
-                                                                                
+
+                                                                                double kilometrosTiempo = tiempoViaje*113;
+
+                                          
                                                                             }
 
 
@@ -252,7 +255,7 @@ public class index{
                                                                                     nivel10=false;
 
                                                                                     System.out.println(citySelected+"--"+ciudadViaje);
-                                                                                    // System.out.println(userVehicleSelection.nombre);
+                                                                                    
 
                                                                                 }
     

@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Dijkstra{
     static HashMap<String, ArrayList<Edge>> graph = new HashMap<String, ArrayList<Edge>>();
-    static List<String> visited = new ArrayList<String>();
     static ArrayList<BinaryTree> vehiculos = new ArrayList<BinaryTree>();
+    static HashMap<String,ArrayList<Places>> citiesPoints = new HashMap<String,ArrayList<Places>>();
 
     Dijkstra(){
         graph.put("mexicali",new ArrayList<Edge>(Arrays.asList(new Edge("san felipe",197),new Edge("puerto penasco",297), new Edge("tecate",130),new Edge("san luis",80))));
@@ -16,6 +16,18 @@ public class Dijkstra{
         graph.put("puerto penasco",new ArrayList<Edge>(Arrays.asList(new Edge("san luis",238),new Edge("mexicali",297), new Edge("caborca",178))));
         graph.put("hermosillo",new ArrayList<Edge>(Arrays.asList(new Edge("caborca",282))));
         graph.put("tijuana",new ArrayList<Edge>(Arrays.asList(new Edge("tecate",54), new Edge("rosarito",21))));
+
+        citiesPoints.put("mexicali", new ArrayList<Places>(Arrays.asList(new Places("Bosque de la ciudad",80),new Places("Sol del nino",110),new Places("Museo UABC",30))));
+        citiesPoints.put("san felipe", new ArrayList<Places>(Arrays.asList(new Places("Aventuras del desierto (Tour)",90),new Places("Playas de San Felipe",120))));
+        citiesPoints.put("ensenada", new ArrayList<Places>(Arrays.asList(new Places("Las canadas"),new Places("Vinedos",180),new Places("La Bufadora",30),new Places("El Parque de la Bandera",25))));
+        citiesPoints.put("tecate", new ArrayList<Places>(Arrays.asList(new Places("Cerveceria Tecate",35),new Places("Canada del Sol",50))));
+        citiesPoints.put("rosarito", new ArrayList<Places>(Arrays.asList(new Places("Bahia Los Angeles",60),new Places("Tour Islas Coronado",360))));
+        citiesPoints.put("san luis", new ArrayList<Places>());
+        citiesPoints.put("caborca", new ArrayList<Places>(Arrays.asList(new Places("Pueblo Viejo",45),new Places("Casa de la cultura",25),new Places("Casa de artesanias",30))));
+        citiesPoints.put("puerto penasco", new ArrayList<Places>(Arrays.asList(new Places("Cholla Mall",30),new Places("Mercado de la sirena",20))));
+        citiesPoints.put("hermosillo", new ArrayList<Places>(Arrays.asList(new Places("Parque la Ruina",25), new Places("Estadio corona",25))));
+        citiesPoints.put("tijuana", new ArrayList<Places>(Arrays.asList(new Places("Mercado de pulgas",40),new Places("Centro cultural Tijuana",30),new Places("Estadio Caliente Xoloitzcuintles"), new Places("Mercado el Popo"))));
+
 
         Node kiaDeluxe= new Node("Kia Forte ",16,150, 5);
         Node kiaSport= new Node("Kia Forte Sport",9,210, 5);
@@ -47,6 +59,7 @@ public class Dijkstra{
         
 
     }
+    
 
     public static ArrayList<BinaryTree> getVehicles(){
         return vehiculos;
@@ -326,10 +339,7 @@ public class Dijkstra{
         }
     }
 
-    public static void removeCity(String city){
-
-        
-    }
+  
 
 
     public static boolean isCityRegistered(String city){
@@ -346,29 +356,152 @@ public class Dijkstra{
         return exists;
 
     }
+
+  
     public static void addCityRelations(String name, ArrayList<Edge> relations){
         graph.put(name,relations);
     }
 
-    public static void getPath(String start,String end){
-         HashMap<String, Vertex> vertexs = new HashMap<String, Vertex>();
-        ArrayList<String> registeredCities = new ArrayList<String>();
-        for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
-            registeredCities.add(cities.getKey());
+    // public static void getPath(String start,String end){
+        
+    //      HashMap<String, Vertex> vertexs = new HashMap<String, Vertex>();
+    //     ArrayList<String> registeredCities = new ArrayList<String>();
+    //     for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
+    //         registeredCities.add(cities.getKey());
+
+    //     }
+
+    //     for(String city: registeredCities){
+    //         if(city ==start){
+    //             vertexs.put(city,new Vertex(0));
+    //         }else{
+    //             vertexs.put(city,new Vertex());
+    //         }
+    //     }
+    // }
+
+
+    public Stack<Vertex> dijsktra(HashMap<String, ArrayList<Edge>> city, String start, String end) {
+        HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
+        ArrayList<Vertex> unVisited = new ArrayList<Vertex>();
+        System.out.println(city.keySet());
+        int contador = 0;
+        int index=0;
+        int indexf=0;
+        for (String key : city.keySet()) {
+           
+            unVisited.add(new Vertex(key));
+            vertices.put(key, unVisited.get(unVisited.size() - 1));
+            if(key == start){
+                index = contador;
+            }
+            if(key==end){
+                indexf=contador;
+            }
+            contador++;
+        }
+        unVisited.get(index).pathWeigth = 0;
+
+        while (unVisited.size() > 0) {
+            bubble(unVisited);
+            System.out.println(unVisited.get(0).value);
+            relaxation(unVisited.get(0).value, vertices, city);
+            unVisited.remove(0);
+        }
+
+        Stack<Vertex> stack = new Stack<Vertex>();
+
+       
+        System.out.println("-----------");
+        
+
+        System.out.println(vertices.get(end).value);
+
+
+
+        Vertex actual = vertices.get(end);
+        while(true){
+            stack.add(actual);
+            if (actual.value == start) {
+                break;
+            }
+            actual = vertices.get(actual.lastVertex);
 
         }
 
-        for(String city: registeredCities){
-            if(city ==start){
-                vertexs.put(city,new Vertex(0));
-            }else{
-                vertexs.put(city,new Vertex());
+        return stack;
+    }
+    public void pathTable(HashMap<String, ArrayList<Edge>> city, String start) {
+        HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
+        ArrayList<Vertex> unVisited = new ArrayList<Vertex>();
+        System.out.println(city.keySet());
+        int contador = 0;
+        int index=0;
+        int indexf=0;
+        for (String key : city.keySet()) {
+           
+            unVisited.add(new Vertex(key));
+            vertices.put(key, unVisited.get(unVisited.size() - 1));
+            if(key == start){
+                index = contador;
+            }
+            contador++;
+        }
+        unVisited.get(index).pathWeigth = 0;
+
+        while (unVisited.size() > 0) {
+            bubble(unVisited);
+            System.out.println(unVisited.get(0).value);
+            relaxation(unVisited.get(0).value, vertices, city);
+            unVisited.remove(0);
+        }
+
+    
+
+       
+        System.out.println("-----------");
+        
+        System.out.println(" values: "+vertices.values());
+        
+
+
+
+       
+
+       
+    }
+
+    public static void bubble(ArrayList<Vertex> vertices) {
+        for (int i = 2; i < vertices.size(); i++) {
+            Vertex auxiliar;
+
+            for (int j = 0; j < vertices.size() - 1; j++) {
+                if (vertices.get(j + 1).pathWeigth == null) {
+                    continue;
+                }
+                if (vertices.get(j).pathWeigth == null || vertices.get(j).pathWeigth > vertices.get(j + 1).pathWeigth) {
+                    auxiliar = vertices.get(j);
+                    vertices.set(j, vertices.get(j + 1));
+                    vertices.set(j + 1, auxiliar);
+                }
             }
         }
+    }
 
-
+    public static void relaxation(String v, HashMap<String, Vertex> vertices, HashMap<String, ArrayList<Edge>> cities) {
+        for (Edge edge : cities.get(v)) {
+            if (vertices.get(edge.pointer).pathWeigth == null
+                    || vertices.get(v).pathWeigth + edge.distance < vertices.get(edge.pointer).pathWeigth) {
+                vertices.get(edge.pointer).pathWeigth = vertices.get(v).pathWeigth + edge.distance;
+                vertices.get(edge.pointer).lastVertex = v;
+                vertices.get(edge.pointer).ruta = edge.ruta;
+            }
+        }
     }
     public static void printMap(){
+        System.out.println("");
+        System.out.println("");
+
            for(Map.Entry<String, ArrayList<Edge>> cities: graph.entrySet()){
 
             ArrayList<Edge> neighbours = cities.getValue();
@@ -377,7 +510,9 @@ public class Dijkstra{
                 System.out.print("("+ city.getPointer() +","+city.getDistance()+") ");
                 
             }
-            System.out.println("");
+        System.out.println("");
+        System.out.println("");
+
 
 
         }
@@ -434,11 +569,24 @@ public class Dijkstra{
 
 
     }
+    // public static ArrayList<Edge> presupuestoMethod(Stack<Vertex> path,int presupuesto){
+        
+    //     // path.stream().forEach((ciudad) -> 
 
-    public static void getPathFormated(String selection){
+    //     // System.out.println(S.value)
+        
+    //     // );
 
-     
 
+    // }
+
+    public static void main(String [] args){
+        Dijkstra jo = new Dijkstra();
+        Stack<Vertex> stack ;
+
+        stack = jo.dijsktra(graph,"caborca","ensenada");
+        stack.stream().forEach(s-> System.out.println(s.value));
+        jo.pathTable(graph,"caborca");
     }
 
 

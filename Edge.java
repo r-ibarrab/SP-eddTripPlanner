@@ -1,6 +1,7 @@
 public class Edge {
     String pointer;
     int distance;
+    String ruta;
     Edge(){}
 
     Edge(String pointer, int distance){

@@ -1,17 +1,16 @@
-public class Vertex{
-    String previous;
-    int path=-1;
-    
-    Vertex(){
+public class Vertex {
+    String value;
+    Integer pathWeigth = null;
+    String lastVertex = null;
+    boolean visited = false;
+    String ruta;
 
+    public Vertex(){}
+    public Vertex(String value){
+        this.value = value;
     }
-
-    Vertex(int path, String prev){
-        this.previous = prev;
-        this.path = path;
+    public Vertex(String value, int pathWeigth){
+        this.pathWeigth = pathWeigth;
+        this.value = value;
     }
-    Vertex(int path){
-        this.path = path;
-    }
-
 }
