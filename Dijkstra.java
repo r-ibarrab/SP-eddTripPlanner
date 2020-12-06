@@ -17,16 +17,16 @@ public class Dijkstra{
         graph.put("hermosillo",new ArrayList<Edge>(Arrays.asList(new Edge("caborca",282))));
         graph.put("tijuana",new ArrayList<Edge>(Arrays.asList(new Edge("tecate",54), new Edge("rosarito",21))));
 
-        citiesPoints.put("mexicali", new ArrayList<Places>(Arrays.asList(new Places("Bosque de la ciudad",80),new Places("Sol del nino",110),new Places("Museo UABC",30))));
-        citiesPoints.put("san felipe", new ArrayList<Places>(Arrays.asList(new Places("Aventuras del desierto (Tour)",90),new Places("Playas de San Felipe",120))));
-        citiesPoints.put("ensenada", new ArrayList<Places>(Arrays.asList(new Places("Las canadas"),new Places("Vinedos",180),new Places("La Bufadora",30),new Places("El Parque de la Bandera",25))));
-        citiesPoints.put("tecate", new ArrayList<Places>(Arrays.asList(new Places("Cerveceria Tecate",35),new Places("Canada del Sol",50))));
-        citiesPoints.put("rosarito", new ArrayList<Places>(Arrays.asList(new Places("Bahia Los Angeles",60),new Places("Tour Islas Coronado",360))));
+        citiesPoints.put("mexicali", new ArrayList<Places>(Arrays.asList(new Places("Bosque de la ciudad"),new Places("Sol del nino"),new Places("Museo UABC"))));
+        citiesPoints.put("san felipe", new ArrayList<Places>(Arrays.asList(new Places("Aventuras del desierto (Tour)"),new Places("Playas de San Felipe"))));
+        citiesPoints.put("ensenada", new ArrayList<Places>(Arrays.asList(new Places("Las canadas"),new Places("Vinedos"),new Places("La Bufadora"),new Places("El Parque de la Bandera"))));
+        citiesPoints.put("tecate", new ArrayList<Places>(Arrays.asList(new Places("Cerveceria Tecate"),new Places("Canada del Sol"))));
+        citiesPoints.put("rosarito", new ArrayList<Places>(Arrays.asList(new Places("Bahia Los Angeles"),new Places("Tour Islas Coronado"))));
         citiesPoints.put("san luis", new ArrayList<Places>());
-        citiesPoints.put("caborca", new ArrayList<Places>(Arrays.asList(new Places("Pueblo Viejo",45),new Places("Casa de la cultura",25),new Places("Casa de artesanias",30))));
-        citiesPoints.put("puerto penasco", new ArrayList<Places>(Arrays.asList(new Places("Cholla Mall",30),new Places("Mercado de la sirena",20))));
-        citiesPoints.put("hermosillo", new ArrayList<Places>(Arrays.asList(new Places("Parque la Ruina",25), new Places("Estadio corona",25))));
-        citiesPoints.put("tijuana", new ArrayList<Places>(Arrays.asList(new Places("Mercado de pulgas",40),new Places("Centro cultural Tijuana",30),new Places("Estadio Caliente Xoloitzcuintles"), new Places("Mercado el Popo"))));
+        citiesPoints.put("caborca", new ArrayList<Places>(Arrays.asList(new Places("Pueblo Viejo"),new Places("Casa de la cultura"),new Places("Casa de artesanias"))));
+        citiesPoints.put("puerto penasco", new ArrayList<Places>(Arrays.asList(new Places("Cholla Mall"),new Places("Mercado de la sirena"))));
+        citiesPoints.put("hermosillo", new ArrayList<Places>(Arrays.asList(new Places("Parque la Ruina"), new Places("Estadio corona"))));
+        citiesPoints.put("tijuana", new ArrayList<Places>(Arrays.asList(new Places("Mercado de pulgas"),new Places("Centro cultural Tijuana"),new Places("Estadio Caliente Xoloitzcuintles"), new Places("Mercado el Popo"))));
 
 
         Node kiaDeluxe= new Node("Kia Forte ",16,150, 5);
@@ -381,10 +381,14 @@ public class Dijkstra{
     // }
 
 
-    public Stack<Vertex> dijsktra(HashMap<String, ArrayList<Edge>> city, String start, String end) {
+    public static Stack<Vertex> dijsktra(HashMap<String, ArrayList<Edge>> city, String start, String end) {
         HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
         ArrayList<Vertex> unVisited = new ArrayList<Vertex>();
-        System.out.println(city.keySet());
+    //     System.out.println("-----------");
+
+    //    System.out.println(start+" "+end);
+    //    System.out.println("-----------");
+
         int contador = 0;
         int index=0;
         int indexf=0;
@@ -392,57 +396,72 @@ public class Dijkstra{
            
             unVisited.add(new Vertex(key));
             vertices.put(key, unVisited.get(unVisited.size() - 1));
-            if(key == start){
+            if(key.equals(start)){
                 index = contador;
             }
-            if(key==end){
+            if(key.equals(end)){
                 indexf=contador;
             }
             contador++;
         }
         unVisited.get(index).pathWeigth = 0;
+        // System.out.println("-----------");
+
 
         while (unVisited.size() > 0) {
             bubble(unVisited);
-            System.out.println(unVisited.get(0).value);
+            // System.out.println(unVisited.get(0).value);
             relaxation(unVisited.get(0).value, vertices, city);
             unVisited.remove(0);
         }
+        // System.out.println("-----------");
+
 
         Stack<Vertex> stack = new Stack<Vertex>();
 
        
-        System.out.println("-----------");
+        // System.out.println("-----------");
         
 
-        System.out.println(vertices.get(end).value);
+        // System.out.println(vertices.get(end).value);
 
+        // for(Map.Entry<String,Vertex> citiesDistance: vertices.entrySet()){
+
+        //     Vertex aux = vertices.get(citiesDistance.getKey());
+
+        //     System.out.println(citiesDistance.getKey() +" - "+ aux.value+" - "+aux.lastVertex+"-"+aux.ruta+"-"+aux.pathWeigth);
+                
+        // }
+        // System.out.println("-----------");
 
 
         Vertex actual = vertices.get(end);
+        // System.out.println( vertices.get(end).value);
+        // System.out.println("-----------");
+
         while(true){
             stack.add(actual);
-            if (actual.value == start) {
+
+            if (actual.value.equals(start)) {
                 break;
             }
             actual = vertices.get(actual.lastVertex);
-
         }
 
         return stack;
     }
-    public void pathTable(HashMap<String, ArrayList<Edge>> city, String start) {
+    public static HashMap<String, Vertex> pathTable(HashMap<String, ArrayList<Edge>> city, String start) {
         HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
         ArrayList<Vertex> unVisited = new ArrayList<Vertex>();
-        System.out.println(city.keySet());
+        // System.out.println(city.keySet());
         int contador = 0;
         int index=0;
-        int indexf=0;
+        
         for (String key : city.keySet()) {
            
             unVisited.add(new Vertex(key));
             vertices.put(key, unVisited.get(unVisited.size() - 1));
-            if(key == start){
+            if(key.equals(start)){
                 index = contador;
             }
             contador++;
@@ -451,23 +470,14 @@ public class Dijkstra{
 
         while (unVisited.size() > 0) {
             bubble(unVisited);
-            System.out.println(unVisited.get(0).value);
+            // System.out.println(unVisited.get(0).value);
             relaxation(unVisited.get(0).value, vertices, city);
             unVisited.remove(0);
         }
 
-    
 
+        return vertices;
        
-        System.out.println("-----------");
-        
-        System.out.println(" values: "+vertices.values());
-        
-
-
-
-       
-
        
     }
 
@@ -569,7 +579,7 @@ public class Dijkstra{
 
 
     }
-    // public static ArrayList<Edge> presupuestoMethod(Stack<Vertex> path,int presupuesto){
+    // public static ArrayList<Edge> getPresupuesto(Stack<Vertex> path,int presupuesto){
         
     //     // path.stream().forEach((ciudad) -> 
 
@@ -580,14 +590,91 @@ public class Dijkstra{
 
     // }
 
-    public static void main(String [] args){
-        Dijkstra jo = new Dijkstra();
-        Stack<Vertex> stack ;
+    public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm) 
+    { 
+        // Create a list from elements of HashMap 
+        List<Map.Entry<String, Double> > list = 
+               new LinkedList<Map.Entry<String, Double> >(hm.entrySet()); 
+  
+        Collections.sort(list, new Comparator<Map.Entry<String, Double> >() { 
+            public int compare(Map.Entry<String, Double> o1,  
+                               Map.Entry<String, Double> o2) 
+            { 
+                return (o1.getValue()).compareTo(o2.getValue()); 
+            } 
+        }); 
+          
 
-        stack = jo.dijsktra(graph,"caborca","ensenada");
-        stack.stream().forEach(s-> System.out.println(s.value));
-        jo.pathTable(graph,"caborca");
+        HashMap<String, Double> temp = new LinkedHashMap<String, Double>(); 
+        for (Map.Entry<String, Double> aa : list) { 
+            temp.put(aa.getKey(), aa.getValue()); 
+        } 
+        return temp; 
+    } 
+
+
+    public static void getPathToEnd(String startCity, String endCity,Node vehiculo){
+        Stack<Vertex> stack ;
+        stack = dijsktra(graph,startCity,endCity);
+        double kms =0.0;
+        while(!stack.isEmpty()){
+            Vertex aux=stack.pop();
+            System.out.print(" "+aux.value);
+            if(!stack.isEmpty()){
+                System.out.print("->");
+            }else{
+                kms =aux.pathWeigth;
+            }
+        }
+
+        double tiempoHoras = kms/113;
+        double precioFinal = (vehiculo.precio*(kms/113))+((kms/vehiculo.rendimiento)*17.35);
+
+        System.out.println("\nKilometros finales: "+kms+"\nTiempo total del viaje: "+String.format("%.2f",tiempoHoras)+"\nPrecio total del viaje:"+String.format("%.2f", precioFinal));
+
+
+
     }
 
+    public static void getPossibleCities(Double kiloms, String selectedCity, Node car){
 
+            HashMap<String, Vertex> auxi = pathTable(graph,selectedCity.toLowerCase());
+            HashMap<String, Double> possibleCities = new HashMap<String,Double>();
+            
+            for(Map.Entry<String,Vertex> citiesDistance: auxi.entrySet()){
+
+                Vertex aux = auxi.get(citiesDistance.getKey());
+
+                if(aux.pathWeigth<=kiloms){
+                    possibleCities.put(aux.value,(kiloms-aux.pathWeigth));
+
+                }
+
+                // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
+                    
+            }
+
+            possibleCities = sortByValue(possibleCities);
+            if(possibleCities.size()==1){
+                System.out.println("El presupuesto es insuficiente para viajara a alguna ciudad :(");
+
+            }else{
+                System.out.println("Estas son las ciudades que puedes visitar con tu presupuesto");
+
+                for(Map.Entry<String,Double> ayuda: possibleCities.entrySet()){
+                
+                      if(!ayuda.getKey().equals(selectedCity)){
+                        if(ayuda.getValue()<=kiloms){
+                            double kmLeft = kiloms-ayuda.getValue();
+                            double change = ((kmLeft/113)*(car.precio))+((kiloms/car.rendimiento)*(17.35));
+
+                            System.out.println(ayuda.getKey()+", Con "+String.format("%.2f",change)+" pesos de sobra");
+                        }
+                      }
+                
+                    }
+
+                    // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
+            } 
+        }
 }

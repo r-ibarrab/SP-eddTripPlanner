@@ -152,8 +152,8 @@ public class index{
                                                                 System.out.println("\n\nPerfecto!!"+citySelected.substring(0, 1).toUpperCase() + citySelected.substring(1)+" es una excelente elecciónn, es momento de planear hasta donde llegará tu viaje.\nPuedes elegir entre diferentes modalidades que determinaran tu lugar de destino, entre ellas tu presupuesto, tiempo o ciudad de destino.");
                                                                 boolean nivel7=false;
                                                                 int modality=0;
-                                                                int rendimientoVehiculo = userVehicleSelection.rendimiento;
-                                                                int precioVehiculo = userVehicleSelection.precio;
+                                                                double rendimientoVehiculo = userVehicleSelection.rendimiento;
+                                                                double precioVehiculo = userVehicleSelection.precio;
                                                                 do{
                                                                     if(nivel7){
                                                                         System.out.println("Selecciona la modalidad");
@@ -169,7 +169,7 @@ public class index{
                                                                         case 1:
                                                                             nivel7=true;
                                                                             boolean nivel8=false;
-                                                                            int presupuestoViaje=0;
+                                                                            double presupuestoViaje=0;
                                                                             do{
                                                                                 if(nivel8){
                                                                                     System.out.println("El presupuesto no puede ser negativo");
@@ -183,10 +183,10 @@ public class index{
                                                                                     nivel8 = true;
                                                                                 }else{
                                                                                     nivel8=false;
-                                                                                    System.out.println(rendimientoVehiculo+" - "+precioVehiculo);
-                                                                                    //113
-                                                                                    double kilometrosTotales = (presupuestoViaje)/((17.35/rendimientoVehiculo)+(precioVehiculo/113));
-                                                                                    System.out.println(kilometrosTotales);
+                                                                                    System.out.println("");
+                                                                                    //113 velocidad promedio (75% carretera(130km/hr), 25% ciudad(65km/hr))
+                                                                                    double kilometrosTotales = (presupuestoViaje/((precioVehiculo/113)+(17.35/rendimientoVehiculo)));
+                                                                                    proyecto.getPossibleCities(kilometrosTotales,citySelected,userVehicleSelection);
                                                                                     
                                                                                 }
 
@@ -252,9 +252,45 @@ public class index{
                                                                                     nivel10=true;
                                                            
                                                                                 }else{
-                                                                                    nivel10=false;
+                                                                                    nivel10=false;  
+                                                                                    ciudadViaje= ciudadViaje.toLowerCase();
+                                                                                    citySelected=citySelected.toLowerCase();
+                                                                                    System.out.println(citySelected+" - "+ciudadViaje);
+                                                                                    proyecto.getPathToEnd(citySelected,ciudadViaje,userVehicleSelection);
+                                                                                    System.out.println("");
+                                                                                    System.out.println("Deseas confirmar tu viaje?");
 
-                                                                                    System.out.println(citySelected+"--"+ciudadViaje);
+                                                                                    boolean confirmacion = false;
+                                                                                    
+
+                                                                                    do{
+
+                                                                                        if(confirmacion){
+                                                                                            System.out.println("Opcion no valida");
+                                                                                        }
+
+                                                                                        int confirm= numeros.nextInt();
+
+                                                                                        if(confirm > 1 || confirm<0){
+                                                                                            confirmacion=true;
+                                                                                        }else if(confirm ==1 ){
+                                                                                            nivel7=false;
+                                                                                            nivel6=false;   
+                                                                                            confirmacion=false;                         
+                                                                                    
+                                                                                        }else{
+                                                                                            confirmacion=false;  
+                                                                                            nivel7=true;   
+                                                                                        }
+
+
+
+                                                                                    }while(confirmacion);
+
+
+    
+                                                                                 
+                                                                                    
                                                                                     
 
                                                                                 }
@@ -316,7 +352,6 @@ public class index{
 
                             }while(nivel4);
                             
-                            System.out.println("bye");
 
 
                         }
