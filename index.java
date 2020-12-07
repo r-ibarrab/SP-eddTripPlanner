@@ -176,10 +176,12 @@ public class index{
 
                                                                                 }
 
-                                                                                System.out.println("Ingresa tu presupuesto para este viaje");
+                                                                                System.out.println("Ingresa tu presupuesto para este viaje, escribe -1 para cancelar");
                                                                                 presupuestoViaje=numeros.nextInt();
 
-                                                                                if(presupuestoViaje<=0){
+                                                                                if(presupuestoViaje == -1){
+                                                                                    nivel8=false;
+                                                                                }else if(presupuestoViaje<=-1){
                                                                                     nivel8 = true;
                                                                                 }else{
                                                                                     nivel8=false;
@@ -187,7 +189,7 @@ public class index{
                                                                                     //113 velocidad promedio (75% carretera(130km/hr), 25% ciudad(65km/hr))
                                                                                     double kilometrosTotales = (presupuestoViaje/((precioVehiculo/113)+(17.35/rendimientoVehiculo)));
                                                                                     boolean getout = proyecto.getPossibleCities(kilometrosTotales,citySelected,userVehicleSelection);
-                                                                                    nivel8=getout;
+                                                                                    nivel8=!getout;
 
 
                                                                                     
@@ -272,7 +274,7 @@ public class index{
                                                                                     System.out.println(citySelected+" - "+ciudadViaje);
                                                                                     proyecto.getPathToEnd(citySelected,ciudadViaje,userVehicleSelection);
                                                                                     System.out.println("");
-                                                                                    System.out.println("Deseas confirmar tu viaje?");
+                                                                                    System.out.println("Deseas confirmar tu viaje? 1=si , 0=no");
 
                                                                                     boolean confirmacion = false;
                                                                                     
