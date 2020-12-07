@@ -24,7 +24,7 @@ public class Dijkstra{
         citiesPoints.put("rosarito", new ArrayList<Places>(Arrays.asList(new Places("Bahia Los Angeles"),new Places("Tour Islas Coronado"))));
         citiesPoints.put("san luis", new ArrayList<Places>());
         citiesPoints.put("caborca", new ArrayList<Places>(Arrays.asList(new Places("Pueblo Viejo"),new Places("Casa de la cultura"),new Places("Casa de artesanias"))));
-        citiesPoints.put("puerto penasco", new ArrayList<Places>(Arrays.asList(new Places("Cholla Mall"),new Places("Mercado de la sirena"))));
+        citiesPoints.put("puerto penasco", new ArrayList<Places>(Arrays.asList(new Places("Playa de Puerto Penasco"),new Places("Mercado de la sirena"))));
         citiesPoints.put("hermosillo", new ArrayList<Places>(Arrays.asList(new Places("Parque la Ruina"), new Places("Estadio corona"))));
         citiesPoints.put("tijuana", new ArrayList<Places>(Arrays.asList(new Places("Mercado de pulgas"),new Places("Centro cultural Tijuana"),new Places("Estadio Caliente Xoloitzcuintles"), new Places("Mercado el Popo"))));
 
@@ -635,8 +635,76 @@ public class Dijkstra{
 
 
     }
+    public static boolean getTimeCities(double kiloms, String selectedCity, Node car){
 
-    public static void getPossibleCities(Double kiloms, String selectedCity, Node car){
+        HashMap<String, Vertex> auxi = pathTable(graph,selectedCity.toLowerCase());
+        HashMap<String, Double> possibleCities = new HashMap<String,Double>();
+        
+        for(Map.Entry<String,Vertex> citiesDistance: auxi.entrySet()){
+
+            Vertex aux = auxi.get(citiesDistance.getKey());
+
+            if(aux.pathWeigth<=kiloms){
+                possibleCities.put(aux.value,(kiloms-aux.pathWeigth));
+
+            }
+
+            // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
+                
+        }
+
+        possibleCities = sortByValue(possibleCities);
+        if(possibleCities.size()==1){
+            System.out.println("El tiempo establecido no es suficiente para viajar a alguna ciudad :(");
+
+        }else{
+            System.out.println("Estas son las ciudades que puedes visitar con el tiempo establecido");
+
+            for(Map.Entry<String,Double> ayuda: possibleCities.entrySet()){
+            
+                  if(!ayuda.getKey().equals(selectedCity)){
+                    if(ayuda.getValue()<=kiloms){
+                        double kmLeft = ayuda.getValue();
+                        double change = (kmLeft/113)*60;
+
+                        System.out.println(ayuda.getKey()+", con "+String.format("%.2f",change)+" minutos de sobra");
+                    }
+                  }
+            
+                }
+
+                // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
+        } 
+
+    System.out.println("Escribe la ciudad que deseas visitar o escribe exit para cancelar");
+
+    boolean nivel1 =false;
+    Scanner sc= new Scanner(System.in);
+    String opc="";
+    do{
+        if(nivel1){
+            System.out.println("Opcion no valida");
+        }
+
+         opc = sc.nextLine();
+
+        if(opc.toLowerCase().equals("exit")){
+            return false;
+        } else if(possibleCities.get(opc)!=null){
+            System.out.println("Muy buena eleccion, que disfrutes tu viaje");
+            return true;
+
+        }else{
+            nivel1=true;
+        }
+
+        
+    }while(nivel1);
+
+    return false;
+}
+
+    public static boolean getPossibleCities(Double kiloms, String selectedCity, Node car){
 
             HashMap<String, Vertex> auxi = pathTable(graph,selectedCity.toLowerCase());
             HashMap<String, Double> possibleCities = new HashMap<String,Double>();
@@ -653,10 +721,11 @@ public class Dijkstra{
                 // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
                     
             }
-
+            boolean insuficiente = false;
             possibleCities = sortByValue(possibleCities);
             if(possibleCities.size()==1){
-                System.out.println("El presupuesto es insuficiente para viajara a alguna ciudad :(");
+                System.out.println("El presupuesto es insuficiente para viajar a alguna ciudad :(");
+                insuficiente = true;
 
             }else{
                 System.out.println("Estas son las ciudades que puedes visitar con tu presupuesto");
@@ -665,10 +734,10 @@ public class Dijkstra{
                 
                       if(!ayuda.getKey().equals(selectedCity)){
                         if(ayuda.getValue()<=kiloms){
-                            double kmLeft = kiloms-ayuda.getValue();
-                            double change = ((kmLeft/113)*(car.precio))+((kiloms/car.rendimiento)*(17.35));
+                            double kmLeft = ayuda.getValue();
+                            double change = ((kmLeft/113)*(car.precio))+((kmLeft/car.rendimiento)*(17.35));
 
-                            System.out.println(ayuda.getKey()+", Con "+String.format("%.2f",change)+" pesos de sobra");
+                            System.out.println(ayuda.getKey()+", con "+String.format("%.2f",change)+" pesos de sobra");
                         }
                       }
                 
@@ -676,5 +745,35 @@ public class Dijkstra{
 
                     // System.out.println(aux.value+" - "+aux.lastVertex+"-"+aux.pathWeigth);
             } 
-        }
+
+            if(!insuficiente){
+                System.out.println("Escribe la ciudad que deseas visitar o escribe exit para cancelar");
+
+                boolean nivel1 =false;
+                Scanner sc= new Scanner(System.in);
+                String opc="";
+                do{
+                    if(nivel1){
+                        System.out.println("Opcion no valida");
+                    }
+        
+                     opc = sc.nextLine();
+        
+                    if(opc.toLowerCase().equals("exit")){
+                        return false;
+        
+                    } else if(possibleCities.get(opc)!=null){
+                        System.out.println("Muy buena eleccion, que disfrutes tu viaje");
+                        return true;
+        
+                    }else{
+                        nivel1=true;
+                    }
+        
+                    
+                }while(nivel1);
+            }
+
+        return false;
+    }
 }

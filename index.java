@@ -186,7 +186,11 @@ public class index{
                                                                                     System.out.println("");
                                                                                     //113 velocidad promedio (75% carretera(130km/hr), 25% ciudad(65km/hr))
                                                                                     double kilometrosTotales = (presupuestoViaje/((precioVehiculo/113)+(17.35/rendimientoVehiculo)));
-                                                                                    proyecto.getPossibleCities(kilometrosTotales,citySelected,userVehicleSelection);
+                                                                                    boolean getout = proyecto.getPossibleCities(kilometrosTotales,citySelected,userVehicleSelection);
+                                                                                    nivel8=getout;
+
+
+                                                                                    
                                                                                     
                                                                                 }
 
@@ -215,14 +219,24 @@ public class index{
                                                                             }else{
                                                                                 nivel9=false;
                                                                                 System.out.println(tiempoViaje);
-
                                                                                 double kilometrosTiempo = tiempoViaje*113;
+
+                                                                                 if(proyecto.getTimeCities(kilometrosTiempo,citySelected,userVehicleSelection)){
+                                                                                     nivel7=false;
+                                                                                     nivel9=false;
+
+                                                                                 }else{
+                                                                                     nivel9=false;
+                                                                                     nivel7=true;
+                                                                                 }
 
                                           
                                                                             }
 
 
                                                                         }while(nivel9);
+
+                                                                        
 
                                                                     
 
@@ -273,10 +287,12 @@ public class index{
 
                                                                                         if(confirm > 1 || confirm<0){
                                                                                             confirmacion=true;
-                                                                                        }else if(confirm ==1 ){
+                                                                                        }else if(confirm == 1 ){
                                                                                             nivel7=false;
                                                                                             nivel6=false;   
-                                                                                            confirmacion=false;                         
+                                                                                            confirmacion=false;  
+                                                                                            confvehi = false;
+                                                                                            nivel6=false;                       
                                                                                     
                                                                                         }else{
                                                                                             confirmacion=false;  
